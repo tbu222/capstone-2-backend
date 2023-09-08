@@ -10,7 +10,7 @@ router.put("/:id",verifyToken, update)
 router.delete("/:id",verifyToken, remove)
 
 //get all user
-router.get('/', getAllUser);
+router.get('/', getAllUsers);
 
 //get 1 user
 router.get("/find/:id", getUser)
