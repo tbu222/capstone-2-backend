@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import { createError } from "../error.js";
 //add video
 export const addVideo = async (req, res, next)=>{
-    console.log("data",req.userData.id);
     console.log("user",req.user.id)
     try{
         const id = req.userData.id;
