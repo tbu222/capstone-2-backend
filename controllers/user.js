@@ -131,7 +131,8 @@ export const unsubscribe = async (req, res,next)=>{
         if (!other || !personal)
             return next(createError(404,'user does not exist'));
 
-        const founded = personal.subscribedUsers.find((ch)=>{ch.equals(other._id)})
+        const founded = personal.subscribedUsers.find((ch)=>{ch.toString() === otherId.toString()})
+
         if (!founded)
             return next(createError(404, 'you did not subscribe the user'))
         await User.findByIdAndUpdate(otherId, {$inc: {subscribers:  -1}})
