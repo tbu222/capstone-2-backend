@@ -124,7 +124,7 @@ export const unsubscribe = async (req, res,next)=>{
         const personalId = req.user.id;
         if (!otherId || !mongoose.isValidObjectId(otherId))
             return next(createError(401, 'not a valid id'))
-        if (personal === otherId)
+        if (personalId === otherId)
             return next(createError(400, 'you cant subscribe yourself'))
         let other = await User.findById(otherId);
         let  personal = await User.findById(personalId);
