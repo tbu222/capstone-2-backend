@@ -6,7 +6,7 @@ import { createError } from "../error.js";
 export const addVideo = async (req, res, next)=>{
     try{
         const id = req.user.id;
-        const newVideo =  new Video({...req.body});
+        const newVideo =  new Video({userId: id,...req.body});
         const savedVideo = await newVideo.save();
         await  User.findByIdAndUpdate(id, {
             $addToSet: { userVideos: newVideo._id},
