@@ -6,7 +6,7 @@ import Video from "../models/Video.js"
 export const addCommment = async (req,res,next)=>{
     
     try{
-        const userId = req.userData.id;
+        const userId = req.user.id;
         const videoId = req.params.videoId;
         if (!videoId || !mongoose.isValidObjectId(videoId))
             return next(createError(401), 'not a valid videoId')
@@ -40,7 +40,7 @@ export const addCommment = async (req,res,next)=>{
 export const removeCommment = async (req,res,next)=>{
     try{
         const commentId = req.params.id;
-        const userId = req.userData.id;
+        const userId = req.user.id;
         if (!commentId || !mongoose.isValidObjectId(commentId))
             return next(createError(401, 'not a valid commentId'));
         const comment = await Comment.findById(commentId);

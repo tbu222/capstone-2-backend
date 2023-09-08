@@ -4,9 +4,8 @@ import mongoose from 'mongoose';
 import { createError } from "../error.js";
 //add video
 export const addVideo = async (req, res, next)=>{
-    console.log("user",req.user.id)
     try{
-        const id = req.userData.id;
+        const id = req.user.id;
         const newVideo =  new Video({...req.body});
         const savedVideo = await newVideo.save();
         await  User.findByIdAndUpdate(id, {
@@ -127,9 +126,7 @@ export const random = async (req, res, next)=>{
 //subscribe video
 export const sub = async (req, res, next)=>{
     try {
-		const userId = req.userData.id;
-        console.log("req.userData",req.userData.id);
-        console.log("req.user",req.user.id)
+		const userId = req.user.id;
 		const user = await User.findById(userId);
 		const subscribed = await User.find({
 			_id: { $in: user.subscribedUsers },
@@ -177,7 +174,7 @@ export const search = async (req, res, next)=>{
 export const updateHistory = async (req, res, next) => {
 	try {
 		const videoId = req.params.id;
-		const userId = req.userData.id;
+		const userId = req.user.id;
 
 		if (!videoId || !mongoose.isValidObjectId(videoId))
 			return next(createError(401, 'not a valid videoId'));
@@ -197,7 +194,7 @@ export const updateHistory = async (req, res, next) => {
 
 export const getHistory = async (req, res, next) => {
 	try {
-		const userId = req.userData.id;
+		const userId = req.user.id;
 		const user = await User.findById(userId).populate({
 			path: 'history',
 			model: 'Video',
@@ -216,7 +213,7 @@ export const getHistory = async (req, res, next) => {
 
 export const getLikedVideos = async (req, res, next) => {
 	try {
-		const userId = req.userData.id;
+		const userId = req.user.id;
 		let user = await User.findById(userId).populate({
 			path: 'likedVideos',
 			model: 'Video',
@@ -230,7 +227,7 @@ export const getLikedVideos = async (req, res, next) => {
 };
 export const getDislikedVideos = async (req, res, next) => {
 	try {
-		const userId = req.userData.id;
+		const userId = req.user.id;
 		let user = await User.findById(userId).populate({
 			path: 'dislikedVideos',
 			model: 'Video',
@@ -244,7 +241,7 @@ export const getDislikedVideos = async (req, res, next) => {
 };
 export const getSavedVideos = async (req, res, next) => {
 	try {
-		const userId = req.userData.id;
+		const userId = req.user.id;
 		let user = await User.findById(userId).populate({
 			path: 'savedVideos',
 			model: 'Video',

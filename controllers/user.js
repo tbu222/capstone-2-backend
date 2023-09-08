@@ -19,7 +19,7 @@ export const update = async (req, res,next)=>{
 
 export const like = async (req, res,next)=>{
     try{
-        const userId = req.userData.id;
+        const userId = req.user.id;
         const videoId = req.params.id;
         if (!videoId || !mongoose.isValidObjectId(videoId))
             return next(createError(401), 'not a valid videoId');
@@ -50,7 +50,7 @@ export const like = async (req, res,next)=>{
 }
 export const dislike = async (req, res,next)=>{
     try{
-        const userId = req.userData.id;
+        const userId = req.user.id;
         const videoId = req.params.id;
         if (!videoId || !mongoose.isValidObjectId(videoId))
             return next(createError(401), 'not a valid videoId');
@@ -95,7 +95,7 @@ export const remove = async (req, res,next)=>{
 export const subscribe = async (req, res,next)=>{
     try{
         const otherId = req.params.id;
-        const personalId = req.userData.id;
+        const personalId = req.user.id;
         if (!otherId || !mongoose.isValidObjectId(otherId))
             return next(createError(401, 'not a valid id'))
 
@@ -121,7 +121,7 @@ export const subscribe = async (req, res,next)=>{
 export const unsubscribe = async (req, res,next)=>{
     try{
         const otherId = req.params.id;
-        const personalId = req.userData.id;
+        const personalId = req.user.id;
         if (!otherId || !mongoose.isValidObjectId(otherId))
             return next(createError(401, 'not a valid id'))
         if (personal === otherId)
@@ -169,7 +169,7 @@ export const getAllUsers = async (req, res, next) => {
 export const save = async (req, res, next) => {
     try {
         const videoId = req.params.id;
-        const userId = req.userData.id;
+        const userId = req.user.id;
         if (!videoId || !mongoose.isValidObjectId(videoId))
             return next(createError(401, 'not a valid videoId'))
 
@@ -193,7 +193,7 @@ export const save = async (req, res, next) => {
 export const unsave = async (req, res, next) => {
     try {
         const videoId = req.params.id;
-        const userId = req.userData.id;
+        const userId = req.user.id;
         if (!videoId || !mongoose.isValidObjectId(videoId))
             return next(createError(401, 'not a valid videoId'))
 
