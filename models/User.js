@@ -19,14 +19,36 @@ const UserSchema = new mongoose.Schema(
         },
         subscribers:{
             type: Number,
-            default: 0
+            default: 0,
+            min:0,
         },
         fromGoogle:{
             type:Boolean,
             default: false,
         },
         subscribedUsers:{
-            type:[String]
+            type:[{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+            default: [],
+        },
+        likedVideos: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+            default:[],
+        },
+        dislikedVideos: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+            default:[],
+        },
+        savedVideos: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+            default:[],
+        },
+        userVideos: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+            default:[],
+        },
+        history: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+            default:[],
         },
     },
     {timestamps:true}

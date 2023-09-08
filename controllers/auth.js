@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import {createError} from "../error.js"
@@ -56,10 +55,10 @@ export const googleAuth = async (req,res,next)=>{
     }
 }
 
-export const logout = async (req,res,next)=> {
-    res.cookie("access_token",'none', {
-        expires: new Date(Date.now()+ 10*1000),
-        httpOnly: true
-    })
-    res.status(200).json({success:true, message: 'User logged out successfully'});
-}
+// export const logout = async (req,res,next)=> {
+//     res.cookie("access_token",'none', {
+//         expires: new Date(Date.now()+ 10*1000),
+//         httpOnly: true
+//     })
+//     res.status(200).json({success:true, message: 'User logged out successfully'});
+// }
