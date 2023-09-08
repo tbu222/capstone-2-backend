@@ -131,7 +131,7 @@ export const unsubscribe = async (req, res,next)=>{
         if (!other || !personal)
             return next(createError(404,'user does not exist'));
 
-        const founded = personal.subscribedUsers.find((ch)=>{ch === otherId; console.log("ch", ch)})
+        const founded = personal.subscribedUsers.find((ch)=>{ch === other._id;})
         console.log("other", other);
         console.log("personal", personal);
         if (!founded)
