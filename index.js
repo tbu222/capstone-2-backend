@@ -1,54 +1,59 @@
-import express from "express"
-import mongoose from "mongoose"
+import express from 'express';
 import morgan from 'morgan';
-import dotenv from "dotenv"
-import userRoutes from "./routes/users.js"
-import videoRoutes from "./routes/videos.js"
-import commentRoutes from "./routes/comments.js"
-import authRoutes from "./routes/auth.js"
-import cors from "cors";
-import cookieParser from "cookie-parser"
-const app = express()
-dotenv.config()
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
 
-const mongoURI = process.env.MONGO;
+const app = express();
+
+dotenv.config();
+
+import userRoute from './routes/userRoute.js';
+import authRoute from './routes/authRoute.js';
+import videoRoute from './routes/videoRoute.js';
+import commentRoute from './routes/commentRoute.js';
+
+
+const dbURI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3000;
 
 mongoose
-	.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then((result) => {
-		console.log('DB connected');
-		console.log('Port#: ' + PORT);
+		console.log('connected to db');
+		console.log('backend server is running on port ' + PORT);
 		app.listen(PORT);
 	})
 	.catch((err) => console.log(err));
 Promise = global.Promise;
-app.use(morgan('dev'));
 
+
+app.use(morgan('dev'));
+app.use(cors());
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-app.use(cors());
-app.use(cookieParser())
-app.use("/api/auth", authRoutes)
-app.use("/api/videos", videoRoutes)
-app.use("/api/comments", commentRoutes)
-app.use("/api/users", userRoutes)
-app.use((err, req, res, next)=>{
-    const status = err.status || 500;
-    const message = err.message || "Something wrong going on";
-    return res.status(status).json({
-        success: false,
-        status: status,
-        message: message,
-    })
-})
 
-app.use('*', (req, res)=> {
-    console.log('Route not found');
-    res.status(404).json({
-        error: 'Route not found',
-    });
+app.use('/api/auth', authRoute);
+app.use('/api/users', userRoute);
+app.use('/api/videos', videoRoute);
+app.use('/api/comments', commentRoute);
+
+app.use((err, req, res, next) => {
+	const status = err.status || 500;
+	const message = err.message || 'Something went wrong!';
+	return res.status(status).json({
+		success: false,
+		status,
+		message,
+	});
+});
+
+app.use('*', (req, res) => {
+	console.log('wrong route');
+	res.status(404).json({
+		error: 'Not found',
+	});
 });
 
 export default app;
